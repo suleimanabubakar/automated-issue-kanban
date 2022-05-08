@@ -1,0 +1,11 @@
+name = "Action Acc"
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'Github Token'
+    required: true
+
+
+runs:
+  using: 'node12'
+  main: 'index.js'
