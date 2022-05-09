@@ -8792,7 +8792,7 @@ async function run (){
 
             const projectObj = await getProject(octokit,project,username)
 
-            if (projects){
+            if (projectObj){
                 const columns = await getColumns(octokit,projectObj.id,type)
                 const currentColumn =columns[0]
                 const newColumn = columns[1]
@@ -8826,6 +8826,9 @@ async function run (){
 
 
 async function getProject(octokit,projectName,username){
+    console.log(projectName)
+    
+
     try{
         const projects = await octokit.rest.projects.listForUser({
             username:username,
