@@ -4,7 +4,7 @@ const core = require("@actions/core");
 async function run (){
     const token  = core.getInput('GITHUB_TOKEN')
     const project = core.getInput('PROJECT')
-    const octokit = new github.GitHub(token);
+    const octokit = github.getOctokit(token);
     const context = github.context;
     const label = core.getInput('LABEL')
     const username = core.getInput('USERNAME')
