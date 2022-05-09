@@ -19,7 +19,7 @@ jobs:
           TYPE: "to_progress"
           PROJECT: "My Project"
           LABEL: "active"
-          USERNAME: "your username"
+          USERNAME: "your username" ```
 
 
 ## Required Inputs
