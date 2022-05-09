@@ -8828,9 +8828,11 @@ async function run (){
 async function getProject(octokit,projectName,username){
     try{
         const projects = await octokit.rest.projects.listForUser({
-            username,
+            username:username,
           });
           
+          console.log('project are')
+          console.log(projects)
           return projects.data.filter(projectObj=>projectObj.name=projectName)
     
     }catch(error){
