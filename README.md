@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./
+      - uses: suleimanabubakar/automated-issue-kanban@v1.0.0
         with:
           access-token: "${{ secrets.GHSECRET }}"
           TYPE: "to_progress"
