@@ -3,7 +3,7 @@ description: 'Moves Issue Project  Card To Columns --- For User Level Projects'
 author: 'Suleiman Abubakar'
 
 branding: 
-  icons: move
+  icon: move
   color: white
 
 
