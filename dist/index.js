@@ -8773,6 +8773,7 @@ const core = __nccwpck_require__(2186);
 
 async function run (){
     const token  = core.getInput('GITHUB_TOKEN')
+    console.log(token)
     const project = core.getInput('PROJECT')
     const octokit = github.getOctokit(token);
     const context = github.context;
@@ -8780,7 +8781,8 @@ async function run (){
     const type = core.getInput('TYPE')
     const username = core.getInput('USERNAME')
 
-    print(oc)
+    console.log(octokit)
+    console.log(context)
 
     // check if context is an issue
     if (context.payload.issue){
