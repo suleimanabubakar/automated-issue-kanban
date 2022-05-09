@@ -1,11 +1,12 @@
-name = "Action Acc"
+name: 'Thank You Action'
+description: 'Say "Thank You" to new pull requests'
+author: '[Your Name]'
 
 inputs:
   GITHUB_TOKEN:
-    description: 'Github Token'
+    description: 'GitHub token'
     required: true
-
 
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
