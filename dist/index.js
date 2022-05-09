@@ -8773,8 +8773,7 @@ const core = __nccwpck_require__(2186);
 
 
 async function run (){
-    // const token  = core.getInput('GITHUB_TOKEN')
-    const token = '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'
+    const token  = core.getInput('access-token')
     const project = core.getInput('PROJECT')
     const octokit = github.getOctokit(token);
     const context = github.context;
@@ -8786,23 +8785,20 @@ async function run (){
     // check if context is an issue
     if (context.payload.issue){
         issue = context.payload.issue
-        console.log(issue.url)
+    
 
         if (issue.labels.find(labelObj=>labelObj.name == label)) {
 
             const projectObj = await getProject(octokit,project,username)
 
             if (projectObj){
-
-                console.log(projectObj)
                 
                 const columns = await getColumns(octokit,projectObj.id,type)
                 const currentColumn =columns[0]
                 const newColumn = columns[1]
 
                 const card = await getCard(octokit,currentColumn.id,issue.url)
-                console.log('card is')
-                console.log(card)
+          
 
                 if (card){
                     const movingCard = await moveCard(octokit,newColumn.id,card.id)

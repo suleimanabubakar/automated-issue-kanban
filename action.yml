@@ -3,7 +3,7 @@ description: 'Moves Issue Project  Card To Columns --- For User Level Projects'
 author: 'Suleiman Abubakar'
 
 inputs:
-  GITHUB_TOKEN:
+  access-token:
     description: 'GitHub Token'
     required: true
 
