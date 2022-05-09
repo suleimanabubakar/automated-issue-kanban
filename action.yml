@@ -2,6 +2,11 @@ name: 'Moving Project Cards'
 description: 'Moves Issue Project  Card To Columns --- For User Level Projects'
 author: 'Suleiman Abubakar'
 
+brading: 
+  icons: move
+  color: white
+
+
 inputs:
   access-token:
     description: 'GitHub Token'
