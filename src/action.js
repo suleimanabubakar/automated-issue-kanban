@@ -1,6 +1,7 @@
 const github = require("@actions/github");
 const core = require("@actions/core");
 
+
 async function run (){
     const token  = core.getInput('GITHUB_TOKEN')
     console.log(token)
@@ -11,42 +12,50 @@ async function run (){
     const type = core.getInput('TYPE')
     const username = core.getInput('USERNAME')
 
-    // console.log(octokit)
-    // console.log(context)
 
     // check if context is an issue
     if (context.payload.issue){
         issue = context.payload.issue
+        console.log(issue.url)
 
         if (issue.labels.find(labelObj=>labelObj.name == label)) {
 
             const projectObj = await getProject(octokit,project,username)
 
             if (projectObj){
+
+                console.log(projectObj)
+                
                 const columns = await getColumns(octokit,projectObj.id,type)
                 const currentColumn =columns[0]
                 const newColumn = columns[1]
+
                 const card = await getCard(octokit,currentColumn.id,issue.url)
+                console.log('card is')
+                console.log(card)
+
                 if (card){
-                    const movingCard = await moveCard(octokit,newColumn,card.id)
-                    return "Issue Successfully Moved"
+                    const movingCard = await moveCard(octokit,newColumn.id,card.id)
+                    
+                    console.log("Issue Successfully Moved")
                 }else{
-                    return "Card Issue Not Found !"
+                    console.log("Card Issue Not Found !")
                 }
             
             }else{
-                return "Project  Not Found !"
+                console.log("Project  Not Found !")
             }
 
 
-        }else{
-            return `${label} Not A Listener`
+        }else{         
+            
+            console.log(`${label} Not A Listener`)
         }
     
 
 
     }else{
-        return "Not And Issue"
+        console.log('Not An Issue')
     }
 
 
@@ -64,13 +73,10 @@ async function getProject(octokit,projectName,username){
             username:username,
           });
           
-          console.log('project are')
-          console.log(projects)
-          return projects.data.filter(projectObj=>projectObj.name=projectName)
+          return projects.data.find(projectObj=>projectObj.name==projectName)
     
     }catch(error){
         console.log('Error Found')
-        console.log(error)
         return error
     }
     
@@ -82,8 +88,8 @@ async function getColumns(octokit,projectId,type){
         const columnList = await octokit.rest.projects.listColumns({
                project_id: projectId,
               }); 
-        to_do_colum = columnList.data.find(columnObj=>columnObj.name=="To do")
-        progress_column = columnList.data.find(columnObj=>columnObj.name=="In progress")
+        const to_do_colum = columnList.data.find(columnObj=>columnObj.name=="To do")
+        const progress_column = columnList.data.find(columnObj=>columnObj.name=="In progress")
         return [to_do_colum,progress_column]
     }else{
         return "type not configured"
@@ -92,14 +98,16 @@ async function getColumns(octokit,projectId,type){
 
 
 async function getCard(octokit,columId,issue_url){
-    const cards  = octokit.rest.projects.listCards({
+    const cards  = await octokit.rest.projects.listCards({
             column_id : columId,
           }); 
+    console.log('card are')
+    console.log(cards)
     return cards.data.find(cardObj=>cardObj.content_url == issue_url)
 }
 
 async function moveCard(octokit,columnId,card){
-    const moveC = octokit.rest.projects.moveCard({
+    const moveC = await octokit.rest.projects.moveCard({
         card_id:card,
         position:"top",
         column_id:columnId
