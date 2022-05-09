@@ -4,7 +4,6 @@ const core = require("@actions/core");
 
 async function run (){
     // const token  = core.getInput('GITHUB_TOKEN')
-    // console.log('token is ', token)
     const token = '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'
     const project = core.getInput('PROJECT')
     const octokit = github.getOctokit(token);
@@ -23,31 +22,29 @@ async function run (){
 
             const projectObj = await getProject(octokit,project,username)
 
-            console.log(projectObj)
+            if (projectObj){
 
-            // if (projectObj){
-
-            //     console.log(projectObj)
+                console.log(projectObj)
                 
-            //     const columns = await getColumns(octokit,projectObj.id,type)
-            //     const currentColumn =columns[0]
-            //     const newColumn = columns[1]
+                const columns = await getColumns(octokit,projectObj.id,type)
+                const currentColumn =columns[0]
+                const newColumn = columns[1]
 
-            //     const card = await getCard(octokit,currentColumn.id,issue.url)
-            //     console.log('card is')
-            //     console.log(card)
+                const card = await getCard(octokit,currentColumn.id,issue.url)
+                console.log('card is')
+                console.log(card)
 
-            //     if (card){
-            //         const movingCard = await moveCard(octokit,newColumn.id,card.id)
+                if (card){
+                    const movingCard = await moveCard(octokit,newColumn.id,card.id)
                     
-            //         console.log("Issue Successfully Moved")
-            //     }else{
-            //         console.log("Card Issue Not Found !")
-            //     }
+                    console.log("Issue Successfully Moved")
+                }else{
+                    console.log("Card Issue Not Found !")
+                }
             
-            // }else{
-            //     console.log("Project  Not Found !")
-            // }
+            }else{
+                console.log("Project  Not Found !")
+            }
 
 
         }else{         
