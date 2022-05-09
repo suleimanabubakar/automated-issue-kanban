@@ -8781,8 +8781,8 @@ async function run (){
     const type = core.getInput('TYPE')
     const username = core.getInput('USERNAME')
 
-    console.log(octokit)
-    console.log(context)
+    // console.log(octokit)
+    // console.log(context)
 
     // check if context is an issue
     if (context.payload.issue){
@@ -8823,12 +8823,22 @@ async function run (){
 }
 
 
-async function getProject(octokit,projectName,username){
-    const projects = await octokit.rest.projects.listForUser({
-        username,
-      });
 
-    return projects.data.filter(projectObj=>projectObj.name=projectName)
+
+async function getProject(octokit,projectName,username){
+    try{
+        const projects = await octokit.rest.projects.listForUser({
+            username,
+          });
+          
+          return projects.data.filter(projectObj=>projectObj.name=projectName)
+    
+    }catch(error){
+        console.log('Error Found')
+        console.log(error)
+        return error
+    }
+    
 
 }
 
