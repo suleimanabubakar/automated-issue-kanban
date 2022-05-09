@@ -1,11 +1,29 @@
-name: 'Thank You Action'
-description: 'Say "Thank You" to new pull requests'
-author: '[Your Name]'
+name: 'Moving Project Cards'
+description: 'Moves Issue Project  Card To Columns --- For User Level Projects'
+author: 'Suleiman Abubakar'
 
 inputs:
   GITHUB_TOKEN:
-    description: 'GitHub token'
+    description: 'GitHub Token'
     required: true
+
+  TYPE:
+    description: 'Either to_progress/to_done'
+    required: true
+  
+  PROJECT:
+    description: 'User Level Project Name -- CASE SENSITIVE'
+    required: true
+
+  LABEL:
+    description: 'Label Listener'
+    required: true
+
+  USERNAME:
+    description: 'Github Username'
+    required: true
+
+  
 
 runs:
   using: 'node12'

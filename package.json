@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "ncc build src/action.js -o dist",
+    "r": "ncc build src/test.js -o tests",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,11 @@
   },
   "homepage": "https://github.com/suleimanabubakar/Move_To_Inprogress#readme",
   "dependencies": {
-    "@vercel/ncc": "^0.33.4"
+    "@vercel/ncc": "^0.33.4",
+    "octokit": "^1.7.1"
+  },
+  "devDependencies": {
+    "@actions/core": "^1.8.0",
+    "@actions/github": "^5.0.1"
   }
 }

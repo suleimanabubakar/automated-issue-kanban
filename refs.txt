@@ -1,0 +1,17 @@
+** getting the colum id
+octokit.rest.projects.listForUser({
+  username,
+}); 
+
+
+moving card
+await octokit.projects.moveCard({
+        card_id: cardId,
+        position: "top",
+        column_id: columnId
+    });
+
+
+octokit.rest.projects.listColumns({
+  14439258,
+});
