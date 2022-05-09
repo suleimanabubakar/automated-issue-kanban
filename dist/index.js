@@ -8777,9 +8777,10 @@ async function run (){
     const octokit = github.getOctokit(token);
     const context = github.context;
     const label = core.getInput('LABEL')
+    const type = core.getInput('TYPE')
     const username = core.getInput('USERNAME')
 
-
+    print(oc)
 
     // check if context is an issue
     if (context.payload.issue){
@@ -8787,15 +8788,16 @@ async function run (){
 
         if (issue.labels.find(labelObj=>labelObj.name == label)) {
 
-            const projectObj = await getProject(project)
+            const projectObj = await getProject(octokit,project,username)
 
             if (projects){
-                const columns = await getColumns(projectObj.id)
+                const columns = await getColumns(octokit,projectObj.id,type)
                 const currentColumn =columns[0]
                 const newColumn = columns[1]
-                const card = await getCard(currentColumn.id,issue.url)
+                const card = await getCard(octokit,currentColumn.id,issue.url)
                 if (card){
-                    const movingCard = await moveCard(newColumn,card.id)
+                    const movingCard = await moveCard(octokit,newColumn,card.id)
+                    return "Issue Successfully Moved"
                 }else{
                     return "Card Issue Not Found !"
                 }
@@ -8819,7 +8821,7 @@ async function run (){
 }
 
 
-async function getProject(projectName,username){
+async function getProject(octokit,projectName,username){
     const projects = await octokit.rest.projects.listForUser({
         username,
       });
@@ -8828,7 +8830,7 @@ async function getProject(projectName,username){
 
 }
 
-async function getColumns(projectId,type){
+async function getColumns(octokit,projectId,type){
     if (type == "to_progress"){
         const columnList = await octokit.rest.projects.listColumns({
                project_id: projectId,
@@ -8842,14 +8844,14 @@ async function getColumns(projectId,type){
 }
 
 
-async function getCard(columId,issue_url){
+async function getCard(octokit,columId,issue_url){
     const cards  = octokit.rest.projects.listCards({
             column_id : columId,
           }); 
     return cards.data.find(cardObj=>cardObj.content_url == issue_url)
 }
 
-async function moveCard(columnId,card){
+async function moveCard(octokit,columnId,card){
     const moveC = octokit.rest.projects.moveCard({
         card_id:card,
         position:"top",
